@@ -21,7 +21,6 @@ const client = new Client({
     })
 });
 
-//const client = new Client();
 
 client.on('ready', () => {
     console.log('Client is ready!');
@@ -39,15 +38,13 @@ await client.initialize();
 var varr = 0;
 var msg_encerramento;
 
-export async function temporizador(){
+export async function temporizador(chatIdd){
 
     clearTimeout(msg_encerramento)
 
     msg_encerramento = setTimeout(function(){
-        const number = "+554299954138"
-    
-        const chatId = number.substring(1) + "@c.us";
-        client.sendMessage(chatId, 'Sessão encerrada, 20 segundos sem resposta.')
+
+        client.sendMessage(chatIdd, 'Sessão encerrada, 20 segundos sem resposta.')
         console.log("Passou")
         varr=0;
     }, 20000);
@@ -55,22 +52,19 @@ export async function temporizador(){
 }
 
 
-
-// client.on('message_create', message => {
-// 	console.log(message.body);
-//     });
-
 client.on('message', async message => {
 
     console.log(message.body);
 
     var mensagem = parseInt(message.body);
     
-    const number = "+554299954138"
+    const number = "+" + await (await message.getContact()).number
     
     const chatId = number.substring(1) + "@c.us";
-
-    temp = await temporizador()
+    
+    //console.log(chatId)
+    
+    temp = await temporizador(chatId)
 
     if (varr==0) {
         client.sendMessage(chatId, perg.fazerPrimeiraPergunta());
