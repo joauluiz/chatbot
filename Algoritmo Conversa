@@ -1,34 +1,34 @@
 INÍCIO DA SESSÃO
 
--Usuário : Escreve qualquer coisa
+-Usuário : "Escreve qualquer coisa"
 
 -CHATBOT: "Olá, seja bem-vindo ao CHATBOT de consulta financeira. Digite o número do 
 serviço que você deseja escolher:
 1 - Saldo
 2 - Extrato última semana
 3 - Extrato últimos 15 dias
-4 - Extrato último mês"
+4 - Extrato último mês
 5 - Extrato últimos 90 dias"
-#Esperar 2 minuto, caso nada ser digitado encessar a sessão e enviar mensagem de finalização de sessão
+#Esperar 1 minuto, caso nada ser digitado encessar a sessão e enviar mensagem de finalização de sessão. Isso valerá para qualquer etapa da conversa.
 
--Usuário: (Digita o número) 
-#(Caso digitar valores incoerentes, mostrar mensagem de erro e retomar as opções
-#até que seja digitado um valor correto)
+-Usuário: (Digita um número válido) 
+#(Caso digitar valores incoerentes, mostrar mensagem de erro e retomar as opções até que seja digitado um valor correto)
 
 -CHATBOT: "Aguarde um momento, estamos processando a requisição!"
+#Caso tenha sido digitado um valor correto, ele retorna a mensagem de aguardar processamento de requisição.
 
 -CHATBOT: "Aqui está!
 Informação desejada."
-#Aguardar 45 segundos
+#Aguardar a finalização do processamento e enviar a informação desejada
 
 -CHATBOT: "Gostaria de alguma outra informação?
 1 - Saldo
 2 - Extrato última semana
 3 - Extrato últimos 15 dias
-4 - Extrato último mês"
-5 - Extrato últimos 90 dias"
-6 - Encerrar a sessão
+4 - Extrato último mês
+5 - Extrato últimos 90 dias
+6 - Encerrar a sessão"
 #Esperar 1 minuto ou ser digitado 6, caso nada ser digitado encerrar a sessão e enviar 
-#mensagem de finalização de sessão
+#mensagem de finalização de sessão"
 
 #Após encerrada a sessão, o usuário começa o processo novamente de início da sessão
