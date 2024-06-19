@@ -1,12 +1,11 @@
 import * as perg from './perguntas.js';
-import Whatsapp from 'whatsapp-web.js'
+import Whatsapp from 'whatsapp-web.js';
 const { Client, LocalAuth } = Whatsapp
 import qrcode from 'qrcode-terminal';
-import * as tempo from './tempo.js'
+import * as exec from './execution.js';
 
 
 var number = 0
-var temp = 1
 
 // Inicializando o bot e geração do QrCode, possui autenticação
 
@@ -54,37 +53,45 @@ export async function temporizador(chatIdd){
 
 client.on('message', async message => {
 
-    console.log(message.body);
+    //console.log(message.body);
 
     var mensagem = parseInt(message.body);
+
+    console.log(mensagem)
     
     const number = "+" + await (await message.getContact()).number
     
     const chatId = number.substring(1) + "@c.us";
     
     //console.log(chatId)
-    
-    temp = await temporizador(chatId)
-
+    //Condição sempre atendida para mensagem de boas-vindas
     if (varr==0) {
         client.sendMessage(chatId, perg.fazerPrimeiraPergunta());
+        await temporizador(chatId);
         varr = varr + 1;
         
-
+    //Condição caso o usuário digite o número 1, que é o pedido de verificação do saldo e tem um procedimento diferente caso fosse extrato
+    } else if (varr != 0 && [1].includes(mensagem)) {
+        client.sendMessage(chatId, 'Aguarde enquanto processamos sua requisição.\n');
+        var resultado_final = await exec.runData(mensagem)
+        client.sendMessage(chatId, resultado_final);
+        client.sendMessage(chatId, 'Gostaria de mais alguma coisa?');
+        await temporizador(chatId)
     }
-    else if (varr != 0 && mensagem in [0,1,2,3,4,5]) {
-            client.sendMessage(chatId, 'O resultado da primeira consulta é x');
-            client.sendMessage(chatId, 'Intervalo de 90 segundos, gostaria de mais alguma coisa?');
+
+    //Condição caso o usuário digite um número no intervalo [2,5], para verificação do extrato
+    else if (varr != 0 && [2, 3, 4, 5].includes(mensagem)) {
+            client.sendMessage(chatId, 'Aguarde enquanto processamos sua requisição.\n');
+            var resultado_final = await exec.runData(mensagem)
+            client.sendMessage(chatId, 'O resultado da sua consulta é:\n'.concat(resultado_final));
+            client.sendMessage(chatId, 'Gostaria de mais alguma coisa?');
+            await temporizador(chatId)
         }
+
+    //Condição caso seja digitado algo não válido
     else {
         client.sendMessage(chatId, perg.fazerPerguntaCasoUsuarioErrou());
-        //temp = tempo.temporizador()};
-
-
-
-
-    
-            //client.sendMessage(chatId, 'teste');
+        await temporizador(chatId);
     }})
 
 

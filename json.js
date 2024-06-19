@@ -35,7 +35,7 @@ function generateRandomTransaction(diasAtras) {
     };
 }
 
-function generateTransactions(num, daysAgo) {
+export function generateTransactions(num, daysAgo) {
     let transactions = [];
     for (let i = 0; i < num; i++) {
         transactions.push(generateRandomTransaction(daysAgo));
@@ -44,10 +44,10 @@ function generateTransactions(num, daysAgo) {
 }
 
 // Generate 5 random transactions
-var json = generateTransactions(15,7);
+//var json = generateTransactions(15,7);
 
-json = JSON.stringify(json, null, 2);
+//json = JSON.stringify(json, null, 2);
 
 //db.InserirDadoDb(json);
 
-console.log(json);
+//console.log(json);
